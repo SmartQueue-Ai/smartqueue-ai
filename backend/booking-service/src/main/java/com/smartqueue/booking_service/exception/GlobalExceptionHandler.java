@@ -20,6 +20,23 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(InventoryLockException.class)
+    public ResponseEntity<ErrorResponse> handleInventoryLockException(
+            InventoryLockException ex, HttpServletRequest request) {
+        log.warn("Inventory lock acquisition failed (409 Conflict): {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .status(HttpStatus.CONFLICT.value())
+                .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .timestamp(Instant.now())
+                .correlationId(MDC.get(CorrelationIdUtil.CORRELATION_ID_LOG_VAR))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
     @ExceptionHandler(BookingNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBookingNotFoundException(
             BookingNotFoundException ex, HttpServletRequest request) {
