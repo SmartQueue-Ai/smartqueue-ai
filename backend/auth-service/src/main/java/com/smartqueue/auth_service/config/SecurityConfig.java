@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartqueue.auth_service.constant.SecurityConstants;
 import com.smartqueue.auth_service.dto.ErrorResponse;
 import com.smartqueue.auth_service.filter.CorrelationIdFilter;
-import com.smartqueue.auth_service.filter.JwtAuthenticationFilterPlaceholder;
+import com.smartqueue.auth_service.filter.JwtAuthenticationFilter;
 import com.smartqueue.auth_service.filter.RequestLoggingFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,12 +40,17 @@ public class SecurityConfig {
 
     private final CorrelationIdFilter correlationIdFilter;
     private final RequestLoggingFilter requestLoggingFilter;
-    private final JwtAuthenticationFilterPlaceholder jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final ObjectMapper objectMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean

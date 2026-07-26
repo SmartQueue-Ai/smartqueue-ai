@@ -2,11 +2,19 @@ package com.smartqueue.auth_service;
 
 import com.smartqueue.auth_service.config.SecurityConfig;
 import com.smartqueue.auth_service.controller.InfrastructureHealthController;
+import com.smartqueue.auth_service.filter.CorrelationIdFilter;
+import com.smartqueue.auth_service.filter.JwtAuthenticationFilter;
+import com.smartqueue.auth_service.filter.RequestLoggingFilter;
+import com.smartqueue.auth_service.security.CustomUserDetailsService;
+import com.smartqueue.auth_service.security.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = InfrastructureHealthController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, CorrelationIdFilter.class, RequestLoggingFilter.class, JwtAuthenticationFilter.class})
 @ActiveProfiles("test")
 class SecurityInfrastructureTest {
 
@@ -23,6 +31,15 @@ class SecurityInfrastructureTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private CustomUserDetailsService userDetailsService;
+
+    @MockBean
+    private StringRedisTemplate redisTemplate;
 
     @Test
     void passwordEncoder_ShouldHashAndMatchPassword() {
