@@ -22,7 +22,7 @@ The primary mission is to engineer high-throughput, fault-tolerant microservices
 - **Distributed Concurrency & Locking:** Implement robust distributed locks using Redis (`SETNX` / Redlock) and transactional isolation (PostgreSQL pessimistic/optimistic locking) to manage seat availability without race conditions.
 - **Asynchronous Messaging:** Design event producers and consumers using RabbitMQ for reservation lifecycle events, notification pipelines, and dead-letter queue (DLQ) retry workflows.
 - **API Engine & Security:** Develop secure RESTful APIs and WebSocket interfaces adhering to OpenAPI specifications, enforcing JWT validation and Role-Based Access Control (RBAC).
-- **Persistence & Migrations:** Manage database schemas and write versioned SQL migrations using Flyway/Liquibase. Optimizing database indexes for high-concurrency read/write operations.
+- **Persistence & Migrations:** Manage database schemas and write versioned SQL migrations using Flyway/Liquibase. Optimize database indexes for high-concurrency read/write operations.
 - **Observability:** Integrate structured JSON logging, propagate correlation tokens (`X-Correlation-ID`) across services, and expose operational health probes.
 
 ---
@@ -30,10 +30,10 @@ The primary mission is to engineer high-throughput, fault-tolerant microservices
 ## 3. Ownership
 
 ### 3.1 Primary Codebases & Directories
-- [`backend/auth-service/`](file:///d:/Project/smartqueue-ai/backend/auth-service)
-- [`backend/booking-service/`](file:///d:/Project/smartqueue-ai/backend/booking-service)
-- [`backend/inventory-service/`](file:///d:/Project/smartqueue-ai/backend/inventory-service)
-- [`ai-services/`](file:///d:/Project/smartqueue-ai/ai-services)
+- [`backend/auth-service/`](../../../backend/auth-service)
+- [`backend/booking-service/`](../../../backend/booking-service)
+- [`backend/inventory-service/`](../../../backend/inventory-service)
+- [`ai-services/`](../../../ai-services)
 
 ### 3.2 Shared System Boundaries
 - **Realtime Gateway (`backend/realtime-gateway/`):** Co-owned with Frontend Engineering for WebSocket event payloads and session token validation.

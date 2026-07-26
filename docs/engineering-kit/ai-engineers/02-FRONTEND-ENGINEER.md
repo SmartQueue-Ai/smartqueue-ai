@@ -12,7 +12,7 @@
 
 The Frontend AI Engineer is responsible for designing, building, optimizing, and maintaining the user-facing web applications and real-time interface experiences of SmartQueue AI.
 
-The primary mission is to create a ultra-responsive, highly visual, low-latency frontend application using Next.js, React, and Socket.IO. The frontend must deliver real-time queue status visualizations, dynamic seat allocation maps, AI booking assistant interfaces, and instantaneous user feedback during high-concurrency reservation events, while maintaining strict state synchronization with backend microservices.
+The primary mission is to create an ultra-responsive, highly visual, low-latency frontend application using Next.js, React, and Socket.IO. The frontend must deliver real-time queue status visualizations, dynamic seat allocation maps, AI booking assistant interfaces, and instantaneous user feedback during high-concurrency reservation events, while maintaining strict state synchronization with backend microservices.
 
 ---
 
@@ -30,7 +30,7 @@ The primary mission is to create a ultra-responsive, highly visual, low-latency 
 ## 3. Ownership
 
 ### 3.1 Primary Codebases & Directories
-- [`frontend/`](file:///d:/Project/smartqueue-ai/frontend)
+- [`frontend/`](../../../frontend)
 
 ### 3.2 Shared System Boundaries
 - **Realtime Gateway (`backend/realtime-gateway/`):** Co-owned with Backend Engineering for Socket.IO event contracts, reconnection strategies, and payload schemas.
@@ -73,7 +73,7 @@ Before submitting or merging frontend code, the Frontend AI Engineer must satisf
 Adhere strictly to [Documentation Standards](../11-DOCUMENTATION-STANDARDS.md):
 
 - **Component Documentation:** Document complex UI components, prop contracts, and custom hooks with JSDoc comments.
-- **Frontend README:** Maintain up-to-date documentation in [`frontend/README.md`](file:///d:/Project/smartqueue-ai/frontend/README.md) detailing local setup, npm scripts, environment variables, and component architecture.
+- **Frontend README:** Maintain up-to-date documentation detailing local setup, npm scripts, environment variables, and component architecture.
 - **Storybook / UI Gallery:** Document reusable component variations where applicable.
 
 ---
@@ -105,11 +105,11 @@ Follow the [Pull Request Template](../09-PULL-REQUEST-TEMPLATE.md) and [Code Rev
 
 Code is only considered "Done" when it fully complies with the project's [Definition of Done](../05-DEFINITION-OF-DONE.md):
 
-- [ ] All component tests and E2E workflow tests pass cleanly.
-- [ ] Frontend application compiles with zero TypeScript compiler errors or lint warnings (`npm run build`).
-- [ ] Realtime WebSocket connection lifecycle (connect, message, disconnect, reconnect) is verified.
-- [ ] App loads and functions properly in Docker Compose local setup.
-- [ ] Visual verification proof (screenshots/recording) is attached to the PR.
+- [ ] All unit, component, and E2E tests pass cleanly.
+- [ ] Responsive design verified on mobile, tablet, and desktop breakpoints.
+- [ ] Production build succeeds (`npm run build`) without TypeScript or linter errors.
+- [ ] Accessibility (WCAG 2.1 AA) criteria verified.
+- [ ] Realtime WebSocket connection recovery and fallback verified.
 - [ ] PR is reviewed and approved by peer engineering.
 
 ---
@@ -118,44 +118,45 @@ Code is only considered "Done" when it fully complies with the project's [Defini
 
 The Frontend AI Engineer must immediately stop work and escalate to the Tech Lead / Engineering Owner when encountering:
 
-1. **API Schema Discrepancies:** Unannounced changes to REST DTOs or WebSocket event structures coming from backend services.
-2. **WebSocket Scaling Failures:** Client performance degradation or memory leaks caused by high-frequency Socket.IO event streams.
-3. **Design System Breaking Changes:** Major UI/UX layout alterations that conflict with established architectural principles.
-4. **Authentication & Session Invalidations:** Unhandled JWT expiration or refresh token failures that block user workflows.
-5. **Architectural Scope Creep:** Requests to implement backend business logic or lock validation authority directly inside client code.
+1. **Unannounced Backend API Breaking Changes:** Breaking changes in REST API request/response structures or WebSocket event names.
+2. **Persistent Realtime Connection Failures:** Unresolved Socket.IO connection drops or state desynchronization between client and server under load.
+3. **Unresolved Performance Degradation:** Frame drops, memory leaks, or unhandled component re-render loops in interactive seat maps.
+4. **Design System / UX Ambiguity:** Major UI layout or user flow conflicts that affect user reservation success.
+5. **Architectural Scope Creep:** Requests that require adding unapproved heavy client libraries or changing primary frontend frameworks.
 
 ---
 
 ## 12. Things NEVER Allowed
 
 1. **NEVER** push directly to `main` or `develop` branches.
-2. **NEVER** trust client-side state for seat reservation locks or booking validation authority.
-3. **NEVER** hardcode backend API URLs, WebSocket hostnames, or authentication keys in source code.
-4. **NEVER** suppress console errors or swallow unhandled Promise rejections in production builds.
-5. **NEVER** use `any` type in TypeScript files.
-6. **NEVER** commit unformatted code or bypass ESLint/TypeScript compilation checks.
-7. **NEVER** leak sensitive user data or JWT tokens into browser `console.log` statements in production.
+2. **NEVER** hardcoded production API keys, secrets, or internal service URLs in client source files.
+3. **NEVER** use `any` type in TypeScript or suppress type-checking errors with `@ts-ignore`.
+4. **NEVER** mutate client-side state directly without React state setters or state management dispatchers.
+5. **NEVER** assume backend authority locally without server verification on state-critical operations (e.g., assuming seat is booked without server acknowledgement).
+6. **NEVER** bypass error boundaries on critical user interaction paths.
+7. **NEVER** commit unformatted code or code with active console logging (`console.log`) in production builds.
 
 ---
 
 ## 13. Decision Boundaries
 
 ### 13.1 Autonomous Decisions (Allowed Without Approval)
-- Internal refactoring of React components, custom hooks, and utility functions.
-- Styling, layout alignment, and micro-animation enhancements.
+- Internal refactoring of React components and custom hooks without changing prop contracts.
 - Adding unit and component tests.
-- Optimizing component re-render performance.
+- Improving CSS styling, micro-animations, and responsive layout spacing.
+- Optimizing component re-renders using `useMemo` and `useCallback`.
 
 ### 13.2 Requires Peer Approval (Via PR Review)
-- Modifying shared UI components or global state stores.
-- Updating npm dependencies in `frontend/package.json`.
-- Adding new pages, routes, or navigation structures.
-- Modifying environment variable declarations in `.env.example`.
+- Creating new user-facing pages or major UI components.
+- Modifying custom React hook interface signatures.
+- Adding new third-party npm UI dependencies.
+- Modifying client-side routing structures.
 
 ### 13.3 Requires Architectural / Lead Approval (RFC / ADR Required)
-- Switching major frontend frameworks, UI libraries, or state management engines.
-- Modifying client-server WebSocket event protocols or payload contracts.
-- Introducing new client-side storage or encryption mechanisms.
+- Replacing or adding primary frontend frameworks or state management engines.
+- Modifying real-time socket protocol specifications.
+- Changing authentication token storage or client-side refresh strategies.
+- Altering core responsive design system tokens.
 
 ---
 
