@@ -25,6 +25,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/actuator/**",
+            "/bookings/**",
+            "/api/v1/bookings/**",
             "/api/v1/booking/**",
             "/error"
     };
