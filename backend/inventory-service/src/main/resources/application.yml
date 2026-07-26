@@ -25,4 +25,4 @@ springdoc:
 
 inventory:
   lock:
-    default-ttl-seconds: ${INVENTORY_LOCK_TTL:600}
+    default-ttl-seconds: ${INVENTORY_LOCK_TTL:300}
