@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = InfrastructureHealthController.class)
 @Import(SecurityConfig.class)
+@ActiveProfiles("test")
 class SecurityInfrastructureTest {
 
     @Autowired
