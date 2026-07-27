@@ -1,0 +1,17 @@
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+logging:
+  level:
+    root: INFO
+    com.smartqueue.realtime_gateway: DEBUG
+    org.springframework.web.socket: DEBUG
+    org.springframework.messaging: DEBUG
